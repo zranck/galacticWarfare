@@ -19,6 +19,9 @@ public class Battle {
         this.ammo = this.ammo - amount;
         this.shotsFired = amount;
     }
+    public int getAmmo(){
+        return this.ammo;
+    }
 
     public void shields(int damage){
         this.shields = this.shields - damage;
@@ -31,13 +34,18 @@ public class Battle {
     }
 
 
-    public int getMyInt()
+
+    public int getDamageDone()
     {
         return damageDone;
     }
 
+    public int enemyShields(){
+        return this.shields;
+    }
+
     public String toString() {
-        return "you have "+this.ammo+" remaining and "+damageDone+"damage was done you fired "+shotsFired+"shields are at "+this.shields;
+        return "you have "+this.ammo+" torpedoes remaining and your shields are at "+this.shields;
     }
 
 
