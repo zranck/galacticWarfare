@@ -31,6 +31,10 @@ public class Main {
     }
 
     public static void beginGame() {
+
+        /////////////////
+        /// INTRO INFORMATION
+        /////////////////////
         Scanner reader = new Scanner(System.in);
         System.out.println("Welcome Captain!");
         System.out.println("We just need some information before we depart.");
@@ -48,107 +52,112 @@ public class Main {
         System.out.println("we've reached the enemy ship, and their setup seem to match our own\n \n");
         System.out.println("Both ships have 30 Torpedoes and shields are at 100");
         System.out.println("Each torpedo does 5 damage, but there's always the chance we miss");
-        System.out.println("how many would you like to fire?");
-        int firedAmmo = Integer.parseInt(reader.nextLine());
 
-        //reduce total ammo, and setup total shots fired
-        myShip.fire(firedAmmo);
-        //randomize how many shots fired hit and the damage done
-        myShip.hits(firedAmmo);
-
-        //Print out the damage done
-        System.out.println("You dealt " + myShip.getDamageDone() + " damage!");
-
-        //subtract shields from enemy shields
-        enemyShip.shields(myShip.getDamageDone());
-
-
-        System.out.println(myShip);
-
-        System.out.println("The enemy ships shields are at: " + enemyShip.enemyShields());
-
-        //CHECK IF THE OTHER SHIP SURVIVED
-        if (enemyShip.enemyShields() <= 0) {
-            System.out.println("YOU WON!");
-            return;
-        }
-
-        while (enemyShip.enemyShields() > 0 || myShip.enemyShields() > 0) {
-            if (enemyShip.getAmmo() > 0) {
-                System.out.println("\n|||||||| ENEMY TURN ||||||||");
-                System.out.println("|||||| SHIELDS: "+enemyShip.enemyShields()+" ||||||");
-                System.out.println("||||||  AMMO: "+enemyShip.getAmmo()+" ||||||\n");
-                ///// ENEMY TURN
-                System.out.println("\n the enemy is returning fire!");
-                Random enemyRandom = new Random();
-                int enemyFiredShots = 1 +enemyRandom.nextInt(enemyShip.getAmmo());
-                System.out.println("The enemy fires " + enemyFiredShots + " torpedoes");
-                enemyShip.fire(enemyFiredShots);
-                //randomize how many shots fired hit and the damage done
-                enemyShip.hits(enemyFiredShots);
-
-                //Print out the damage done
-                System.out.println("the enemy dealt " + enemyShip.getDamageDone() + " damage");
-
-                //subtract shields from enemy shields
-                myShip.shields(enemyShip.getDamageDone());
-
-
-                System.out.println(enemyShip);
-
-                System.out.println("Your ships shields are at: " + myShip.enemyShields());
-
-                //CHECK IF THE OTHER SHIP SURVIVED
-                if (myShip.enemyShields() <= 0) {
-                    System.out.println("YOU LOST!");
-                    return;
-                }
-            } else if(enemyShip.getAmmo() <= 0 && myShip.getAmmo() <=0){
-                System.out.println("Both ships are out of ammo and must leave the area.");
-                System.out.println("||||||||GAME OVER||||||||");
+        System.out.println("enemy "+enemyShip.getAmmo()+" "+enemyShip.enemyShields());
+        System.out.println("YOU "+myShip.getAmmo()+" "+myShip.enemyShields());
+        Boolean enemyTurn = false;
+        int turnCount = 0;
+        //start the back an forth as long as either ship has shields
+        while(enemyShip.enemyShields() >= 0 ){
+            if(myShip.enemyShields() <=0){
+                System.out.println("☢☢☢ GAME OVER ☢☢☢");
+                System.out.println("You Lost");
                 return;
-            }else {
-                System.out.println("the enemy has no ammo, it's our turn again");
             }
-            if (myShip.getAmmo() > 0) {
-                //// PLAYER NEXT TURN
-                System.out.println("We survied their counter attack!");
-                System.out.println("\n|||||||| YOUR TURN ||||||||");
-                System.out.println("|||||| SHIELDS: "+myShip.enemyShields()+" ||||||");
-                System.out.println("||||||  AMMO: "+myShip.getAmmo()+" ||||||\n");
+            //if its your turn
+            if(!enemyTurn) {
+                if (enemyShip.getAmmo() > 0 && myShip.getAmmo() <= 0) {
+                    System.out.println("We're out of ammo they get to fire again!");
+                    enemyTurn = true;
+                } else if (enemyShip.getAmmo() <= 0 && myShip.getAmmo() <= 0) {
+                    System.out.println("\n \n \n \n \n");
+                    System.out.println(" ═══════════════════════════════════════");
+                    System.out.println("║░░░░░░░░░░░░░░░░░░░░░░░░║");
+                    System.out.println("║      BOTH SIDES ARE OUT OF AMMO       ║");
+                    System.out.println("║    THE BATTLE IS OVER... FOR NOW      ║");
+                    System.out.println("║░░░░░░░░░░░░░░░░░░░░░░░░║");
+                    System.out.println(" ═══════════════════════════════════════");
+                    return;
+                } else{
 
-
+                if (turnCount <= 0) {
+                    System.out.println("We've taken them by suprise and can take the first shot");
+                }
                 System.out.println("how many would you like to fire?");
-                firedAmmo = Integer.parseInt(reader.nextLine());
-
+                int firedAmmo = Integer.parseInt(reader.nextLine());
                 //reduce total ammo, and setup total shots fired
                 myShip.fire(firedAmmo);
                 //randomize how many shots fired hit and the damage done
                 myShip.hits(firedAmmo);
-
-                //Print out the damage done
-                System.out.println("the damage done was " + myShip.getDamageDone());
-
                 //subtract shields from enemy shields
                 enemyShip.shields(myShip.getDamageDone());
+                enemyTurn = true;
 
-
-                System.out.println(myShip);
-
-                System.out.println("The enemy ships shields are at: " + enemyShip.enemyShields());
-
-                //CHECK IF THE OTHER SHIP SURVIVED
-                if (enemyShip.enemyShields() <= 0) {
-                    System.out.println("YOU WON!");
-                    return;
-                }
-
-            } else if(enemyShip.getAmmo() <= 0 && myShip.getAmmo() <=0){
-            return;
-        } else {
-                System.out.println("We are out of ammo!");
+                //PRINT OUT RESULT OF TURN
+                System.out.println("\n \n");
+                System.out.println("────────────END OF YOUR TURN────────────────");
+                System.out.println("         AFTER FIRING " + firedAmmo + " SHOTS");
+                System.out.println("         YOU DEALT " + myShip.getDamageDone() + " DAMAGE!");
+                System.out.println("ENEMY SHIP STATUS || SHIELDS: "+enemyShip.enemyShields()+" AMMO: "+enemyShip.getAmmo());
+                System.out.println("YOUR SHIP STATUS  || SHIELDS: "+myShip.enemyShields()+" AMMO: "+myShip.getAmmo());
             }
+            } else {  //if its the enemy turn
+                if (enemyShip.getAmmo() <= 0 && myShip.getAmmo() > 0) {
+                    System.out.println("\n ↺ Enemy is out of ammo we get to fire again!");
+                    enemyTurn = false;
+                } else if (enemyShip.getAmmo() <= 0 && myShip.getAmmo() <= 0) {
+                    System.out.println("\n \n \n \n \n");
+                    System.out.println(" ═══════════════════════════════════════");
+                    System.out.println("║░░░░░░░░░░░░░░░░░░░░░░░░║");
+                    System.out.println("║      BOTH SIDES ARE OUT OF AMMO       ║");
+                    System.out.println("║    THE BATTLE IS OVER... FOR NOW      ║");
+                    System.out.println("║░░░░░░░░░░░░░░░░░░░░░░░░║");
+                    System.out.println(" ═══════════════════════════════════════");
+                    return;
+                } else {
+
+                System.out.println("\n \n");
+                    System.out.println("────────────BEGIN ENEMY TURN───────────────");
+                Random enemyRandom = new Random();
+                int enemyFiredShots = 1 + enemyRandom.nextInt(enemyShip.getAmmo());
+
+                //reduce total ammo, and setup total shots fired
+                enemyShip.fire(enemyFiredShots);
+                //randomize how many shots fired hit and the damage done
+                enemyShip.hits(enemyFiredShots);
+                //subtract damage from enemy shields
+                myShip.shields(enemyShip.getDamageDone());
+
+
+                enemyTurn = false;
+
+                //PRINT OUT RESULT OF TURN
+                System.out.println("\n \n");
+                System.out.println("────────────END OF ENEMY TURN───────────────");
+                System.out.println("         AFTER FIRING " + enemyFiredShots + " SHOTS");
+                System.out.println("         YOU RECEIVED " + enemyShip.getDamageDone() + " DAMAGE!");
+                System.out.println("YOUR SHIP STATUS || SHIELDS: "+myShip.enemyShields()+" AMMO: "+myShip.getAmmo());
+                System.out.println("ENEMY SHIP STATUS  || SHIELDS: "+enemyShip.enemyShields()+" AMMO: "+enemyShip.getAmmo());
+            }
+            }
+            turnCount++;
+        }//end while
+        if(enemyShip.enemyShields() <=0){
+
+            System.out.println("\n \n \n \n \n");
+            System.out.println(" ═══════════════════════════════════════");
+            System.out.println("║★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★║");
+            System.out.println("║   THE ENEMY SHIP HAS BEEN DESTROYED   ║");
+            System.out.println("║                YOU WON!!!             ║");
+            System.out.println("║★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★║");
+            System.out.println(" ═══════════════════════════════════════");
+
+
+
+        } else {
+            System.out.println("You Lost :(");
         }
+
 
     }
 
