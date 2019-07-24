@@ -17,15 +17,16 @@ public class Art {
     public static void enemyShip(){
 
         System.out.println("\t\t◀░░░░░░░▻");
-        System.out.println("\t\t   ░░░░░░");
+        System.out.println("\t\t     ░░░░░░");
         System.out.println("\t\t    ░░░░░░");
         System.out.println("\t\t◀░░░░░░░░░░▻▻");
         System.out.println("\t\t◀░░░░░░░░░░░▻▻");
         System.out.println("\t\t     ░░░░░░░░");
+        System.out.println("\t\t     ░░░░░░░░");
         System.out.println("\t\t◀░░░░░░░░░░░▻▻");
         System.out.println("\t\t◀░░░░░░░░░░▻▻");
-        System.out.println("\t\t    ░░░░░░░░");
-        System.out.println("\t\t   ░░░░░░");
+        System.out.println("\t\t    ░░░░░░░");
+        System.out.println("\t\t    ░░░░░░");
         System.out.println("\t\t◀░░░░░░░▻");
 
 
